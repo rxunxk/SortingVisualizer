@@ -25,12 +25,21 @@ import { generateArray } from "@/util/functions";
 const Algorithm = () => {
   const [speed, setSpeed] = useState(1);
   const [sortArr, setSortArr] = useState(generateArray(30));
-  const [algo, setAlgo] = useState("bubble");
+  const [algo, setAlgo] = useState("Bubble Sort");
+  const [lComp, setLComp] = useState(0);
+  const [rComp, setRComp] = useState(0);
+  const [sortBtnDis, setSortBtnDis] = useState(false);
+
   const largeNum = findLargest(sortArr);
 
-  const bubbleSort = (z: number[]) => {
+  const DELAY = 1000 - (speed - 1) * ((1000 - 50) / 9);
+
+  const bubbleSort = async (z: number[]) => {
     for (let a = 0; a < z.length - 1; a++) {
       for (let b = 0; b < z.length - a - 1; b++) {
+        await new Promise((resolve) => setTimeout(resolve, DELAY));
+        setLComp(z[b]);
+        setRComp(z[b + 1]);
         if (z[b] > z[b + 1]) {
           const temp = z[b];
           z[b] = z[b + 1];
@@ -41,7 +50,10 @@ const Algorithm = () => {
         }
       }
     }
-    console.log(z);
+    //Sorting Completed
+    setSortBtnDis(false);
+    setLComp(0);
+    setRComp(0);
   };
 
   return (
@@ -112,7 +124,9 @@ const Algorithm = () => {
                 return (
                   <div
                     key={i}
-                    className={`bg-[#CCCCFF] w-[22px] rounded shrink-0`}
+                    className={` w-[22px] rounded shrink-0 ${
+                      lComp === n || rComp === n ? "bg-red-400" : "bg-[#CCCCFF]"
+                    }`}
                     style={{ height: `${(n / largeNum) * 100}%` }}
                   ></div>
                 );
@@ -124,8 +138,10 @@ const Algorithm = () => {
           className="w-full min-w-[300px]"
           variant="outline"
           onClick={() => {
+            setSortBtnDis(true);
             bubbleSort(sortArr);
           }}
+          disabled={sortBtnDis}
         >
           Sort!
         </Button>
