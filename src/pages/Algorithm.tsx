@@ -65,6 +65,7 @@ const Algorithm = () => {
             onClick={() => {
               setSortArr(generateArray(30));
             }}
+            disabled={sortBtnDis}
           >
             Generate Array
           </Button>
@@ -79,11 +80,12 @@ const Algorithm = () => {
               onValueChange={(e) => {
                 setSpeed(e[0]);
               }}
+              disabled={sortBtnDis}
             />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button variant="outline" size="icon">
+              <Button variant="outline" size="icon" disabled={sortBtnDis}>
                 <Menu />
               </Button>
             </DropdownMenuTrigger>
