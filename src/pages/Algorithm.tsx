@@ -56,6 +56,46 @@ const Algorithm = () => {
     setRComp(0);
   };
 
+  const insertionSort = async (z: number[]) => {
+    for (let a = 0; a < z.length; a++) {
+      for (let b = a; b >= 0; b--) {
+        await new Promise((resolve) => setTimeout(resolve, DELAY));
+        setLComp(z[b]);
+        setRComp(z[b - 1]);
+        if (z[b] < z[b - 1]) {
+          const temp = z[b];
+          z[b] = z[b - 1];
+          z[b - 1] = temp;
+        }
+      }
+    }
+    //Sorting Completed
+    setSortBtnDis(false);
+    setLComp(0);
+    setRComp(0);
+  };
+
+  const selectionSort = async (z: number[]) => {
+    for (let a = 0; a < z.length - 1; a++) {
+      let smallIndex = a;
+      for (let b = a; b < z.length; b++) {
+        await new Promise((resolve) => setTimeout(resolve, DELAY));
+        setLComp(z[b]);
+        setRComp(z[smallIndex]);
+        if (z[b] < z[smallIndex]) {
+          smallIndex = b;
+        }
+      }
+      const temp = z[a];
+      z[a] = z[smallIndex];
+      z[smallIndex] = temp;
+    }
+    //Sorting Completed
+    setSortBtnDis(false);
+    setLComp(0);
+    setRComp(0);
+  };
+
   return (
     <div className="w-full flex flex-col items-center mt-2">
       <div className="max-w-[960px] w-full flex flex-col items-center px-2 gap-2">
@@ -126,7 +166,7 @@ const Algorithm = () => {
                 return (
                   <div
                     key={i}
-                    className={` w-[22px] rounded shrink-0 ${
+                    className={`w-[22px] rounded shrink-0 ${
                       lComp === n || rComp === n ? "bg-red-400" : "bg-[#CCCCFF]"
                     }`}
                     style={{ height: `${(n / largeNum) * 100}%` }}
@@ -140,8 +180,14 @@ const Algorithm = () => {
           className="w-full min-w-[300px]"
           variant="outline"
           onClick={() => {
+            if (algo === "Bubble Sort") {
+              bubbleSort(sortArr);
+            } else if (algo === "Insertion Sort") {
+              insertionSort(sortArr);
+            } else if (algo === "Selection Sort") {
+              selectionSort(sortArr);
+            }
             setSortBtnDis(true);
-            bubbleSort(sortArr);
           }}
           disabled={sortBtnDis}
         >
